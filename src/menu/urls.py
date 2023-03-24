@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import home
+from .views import home, create_menu
 
 urlpatterns = [
-    path('', home)
+    path('', home, name='home'),
+    path('new_menu', create_menu, name='menu_create')
 ]

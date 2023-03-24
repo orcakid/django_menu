@@ -1,12 +1,19 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import Menu, Submenu
+from .forms import FormMenu
 
 
 def home(request):
-    a = Menu.objects.get(pk=1)
-    res = []
-    #Submenu.objects.create(title='Menda',description='gkgskgsg', menu=a)
-    a.submenu_count = len(a.submenu_set.all())
-    return HttpResponse(a.submenu_count)
+    
+    return render(request, 'base.html')
 
+def create_menu(request):
+    if request.method == 'POST':
+        menu_new = FormMenu(request.POST)
+        if menu_new.is_valid():
+            menu_new.save()
+            return redirect('home')
+    else:
+        menu_new = FormMenu()
+    return render(request, 'menu_create.html', {'form': menu_new})
 
